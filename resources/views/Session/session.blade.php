@@ -76,7 +76,7 @@
 <body>
     <div class='main'>
         <div class='up'>
-    <form action='todoSession' method='post'>
+    <form action='/session/todoSession' method='post'>
         @csrf
         <label><h1>To do:</h1></label>
         <input type='text' name='session' placeholder="TODO" required/>
@@ -88,16 +88,16 @@
 
 
     @foreach($todo as $index=>$item)
-   <h2> <a class='done' href='/doneSession/{{$item}}'>Done</a>
+   <h2> <a class='done' href='/session/doneSession/{{$item}}'>Done</a>
     {{$item}}
-    <span><a class='cross' href='/delete/{{$item}}'>X</a></span></h2>
+    <span><a class='cross' href='/session/delete/{{$item}}'>X</a></span></h2>
     @endforeach
 
     <h1>DONE</h1>
     @foreach($done as $item)
     <h2>
     {{$item}}
-    <span><a class='cross' href='/delete/{{$item}}'>X</a></span></h2>
+    <span><a class='cross' href='/session/delete/{{$item}}'>X</a></span></h2>
     @endforeach
         </div>
 </div>

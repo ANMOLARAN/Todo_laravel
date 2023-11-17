@@ -17,18 +17,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//for cookies
+//for session
  use App\Http\Controllers\SessionController;
 
 Route::get('/session',[SessionController::class,'session']);
-Route::post('/todoSession',[SessionController::class,'todoSession']);
-Route::get('/doneSession/{item}',[SessionController::class,'doneSession']);
-Route::get('/delete/{item}',[SessionController::class,'delete']);
+Route::post('session/todoSession',[SessionController::class,'todoSession']);
+Route::get('session/doneSession/{item}',[SessionController::class,'doneSession']);
+Route::get('session/delete/{item}',[SessionController::class,'delete']);
 
 
 use App\Http\Controllers\DatabaseController;
 
 Route::get('database',[DatabaseController::class,'database']);
-Route::post('storeSession',[DatabaseController::class,'storeSession']);
-Route::get('/doneSession/{item}',[DatabaseController::class,'doneSession']);
-Route::get('/delete/{item}',[DatabaseController::class,'delete']);
+Route::post('database/storeSession',[DatabaseController::class,'storeSession']);
+Route::get('database/doneSession/{item}',[DatabaseController::class,'doneSession']);
+Route::get('database/delete/{item}',[DatabaseController::class,'delete']);
