@@ -20,5 +20,6 @@
    <h1>TO DO LIST USING SESSION and  DATABASE</h1>
     <h1><a href='/session'>Using Session</a></h1>
     <h1><a href='/database'>Using Database</a></h1>
+    <h1><a href='/blog'>Blog Forum</a></h1>
 </body>
 </html>
