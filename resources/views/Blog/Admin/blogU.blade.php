@@ -6,7 +6,7 @@
 <title>Blog Upload</title>
 </head>
 <body>
-    @include('Blog.Admin.header');
+    @include('Blog.Admin.header')
 <div>
 <h3>Insert Blog Data</h3>
 <hr>

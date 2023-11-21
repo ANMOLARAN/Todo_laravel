@@ -8,46 +8,57 @@
 <style>
     .container{
         width:100%;
-        height:50vh;
         display:grid;
        grid-template-columns: auto auto;
        border:2px solid blue;
     }
 
     img{
-      width:200px;
+      width:150px;
+      height:150px;
     }
 
     .container1,.container2,.container3,.container4{
         display:flex;
         flex-direction: column;
         align-items: center;
-    }
+    }  
 
-  ..  
+    a{
+        text-decoration: none;
+    }
 </style>
 <body>
    
     <div class='container'>
         <div class="container1">
-        <h1>{{$data1->title}}</h1>
-        <img src="{{asset($data1->image)}}"/>
-        <p>{{substr($data1->description,0,60)}}</p>
+<a href='/detailBlog/{{$temp[1]->id}}'>
+        <h1>{{$temp[0]->title}}</h1>
+        <img src="{{asset($temp[0]->image)}}"/>
+        <p>{{substr($temp[0]->description,0,60)}}</p>
+</a>
     </div>
     <div class="container2">
-        <h1>{{$data2->title}}</h1>
-        <img src="{{asset($data2->image)}}"/>
-        <p>{{substr($data2->description,0,60)}}</p>
+<a href='/detailBlog/{{$temp[1]->id}}'>
+        <h1>{{$temp[1]->title}}</h1>
+        <img src="{{asset($temp[1]->image)}}"/>
+        <p>{{substr($temp[1]->description,0,60)}}</p>
+</a>
     </div>
     <div class="container3">
-        <h1>{{$data3->title}}</h1>
-        <img src="{{asset($data3->image)}}"/>
-        <p>{{substr($data3->description,0,60)}}</p>
+<a href='/detailBlog/{{$temp[1]->id}}'>
+        <h1>{{$temp[2]->title}}</h1>
+        <img src="{{asset($temp[2]->image)}}"/>
+        <p>{{substr($temp[2]->description,0,60)}}</p>
+</a>
     </div>
     <div class="container4">
-        <h1>{{$data4->title}}</h1>
-        <img src="{{asset($data4->image)}}"/>
-        <p>{{substr($data4->description,0,60)}}</p>
+<a href='/detailBlog/{{$temp[1]->id}}'>    
+        <h1>{{$temp[3]->title}}</h1>
+        <img src="{{asset($temp[3]->image)}}"/>
+        <p>{{substr($temp[3]->description,0,60)}}</p>
+</a>
+</div>
     </div>
 </body>
 </html>

@@ -14,7 +14,14 @@
 <body>
 <div class='header'>
     <h1><a href='/blog'>Blog Website</a></h1>
+    @if(session('admin'))
     <h2><a href='/admin'>Admin</a></h2>
+    @endif
+    @if(session('email'))
+    <h2><a href='/logout'>LogOut</a></h2>
+    @else
+    <h2><a href='/login'>LogIn</a></h2>
+    @endif
 </div>
 </body>
 </html>

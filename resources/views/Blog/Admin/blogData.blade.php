@@ -21,7 +21,7 @@
     </style>
 <body>
     @include('Blog.Admin.header')
-    <h1>All Blog Data</h1>22    
+    <h1>All Blog Data</h1>
     <table>
     <tr>
         <th>Id</th>

@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\AdminBlogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,10 +37,27 @@ Route::get('database/delete/{item}',[DatabaseController::class,'delete']);
                    //BLOG FORUM
 //For BLog Controller
 use App\Http\Controllers\BlogController;
-Route::get('/blog',[BlogController::class,'blog']);
-Route::get('/admin',[BlogController::class,'admin']);
-Route::post('/uploadVideo',[BlogController::class,'uploadVideo'])->name('video.uploadVideo');
-Route::get('/detailBlog/{id}',[BlogController::class,'detailBlog']);
-Route::get('/blogData',[BlogController::class,'blogData']);
+use App\Http\Controllers\ClientBlogController;
 
-Route::post('/importantData',[BlogController::class,'importantData']);
+// Route::get('/admin',[BlogController::class,'admin']);
+// Route::post('/uploadVideo',[BlogController::class,'uploadVideo'])->name('video.uploadVideo');
+//Route::post('/importantData',[BlogController::class,'importantData']);
+
+Route::get('/blog',[ClientBlogController::class,'blog']);
+Route::get('/detailBlog/{id}',[ClientBlogController::class,'detailBlog'])->middleware('authBlog');
+
+//For ClientBlog Controller
+Route::get('/login',[ClientBlogController::class,'login']);
+Route::get('/signUp',[ClientBlogController::class,'signUp']);
+Route::post('auth/login',[ClientBlogController::class,'authLogin']);
+Route::post('auth/save',[ClientBlogController::class,'authSave']);
+
+//For AdminBlogController
+Route::middleware(['adminBlog','authBlog'])->group(function(){
+    Route::get('/admin',[AdminBlogController::class,'admin']);
+    Route::post('/uploadVideo',[AdminBlogController::class,'uploadVideo'])->name('video.uploadVideo');
+    Route::get('/blogData',[AdminBlogController::class,'blogData']);
+    Route::post('/importantData',[AdminBlogController::class,'importantData']);
+});
+
+Route::get('/logout',[ClientBlogController::class,'logout']);

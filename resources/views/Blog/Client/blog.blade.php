@@ -10,11 +10,12 @@
         display:flex;
         flex-direction: column;
         gap:20px;
+
     }
     .box_1{
-        height:25%;
         display:flex;
         gap:50px;
+        align-items: center;
     }
     img{
         width:150px;
@@ -22,7 +23,11 @@
 </style>
 <body>
     @include('Blog.Client.header')
+    <br>
+    <div>
     @include('Blog.Client.importantData')
+</div>
+
 <div class="box">
 @foreach($data as $item)
 <a href="detailBlog/{{$item->id}}">
@@ -30,7 +35,7 @@
 <img src="{{ asset($item->image) }}" alt="Image"/>
 <div class='box_2'>
 <h1>{{$item->title}}<h1>
-<h4>{{$item->description}}</h4>
+<h4>{{substr($item->description,0,50)}}</h4>
 </div>
 </div>
 </a>
