@@ -15,6 +15,7 @@
 <div class='header'>
 <h1><a href='/blog'>Blog Website</a></h1>
     <h1><a href='/blogData'>Blog Data</a></h1>
+    <h2><a href='/allAdmin'>All Administrators</a></h2>
     <h2><a href='/admin'>Admin</a></h2>
 </div>
 </body>

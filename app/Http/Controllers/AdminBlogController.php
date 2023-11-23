@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
+use App\Models\Auth;
 use App\Models\ImportantData;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -45,7 +47,6 @@ class AdminBlogController extends Controller
     public function blogData(){
         $data=Video::all();
         return view('Blog.Admin.blogData',compact('data'));
-
     }
 
     public function importantData(Request $request){
@@ -64,12 +65,36 @@ class AdminBlogController extends Controller
 
         ImportantData::truncate();
 
-        foreach($value as $data){
+    foreach($value as $data){
         ImportantData::create([
             'value'=>$data
         ]);
     }
         
        return redirect('/blog');
+     }
+
+     public function allAdmin(){
+        $data=Admin::all();
+        return view('Blog.Admin.allAdmin',compact('data'));
+     }
+
+     public function saveAdmin(Request $request){
+        $request->validate([
+            'email'=> 'required|email',
+            'password'=>'required'
+        ]);
+
+        Admin::create([
+            'email'=>$request->email,
+            'password'=>$request->password
+        ]);
+       
+        return redirect('/allAdmin');
+     }
+
+     public function deleteAdmin(Request $request,$id){
+        Admin::where('id',$id)->first()->delete();
+        return redirect('/allAdmin');
      }
 }

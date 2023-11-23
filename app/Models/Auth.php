@@ -9,4 +9,8 @@ class Auth extends Model
 {
     protected $fillable=['email','password'];
     use HasFactory;
+    public function post()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

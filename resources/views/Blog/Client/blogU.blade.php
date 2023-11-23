@@ -6,11 +6,11 @@
 <title>Blog Upload</title>
 </head>
 <body>
-    @include('Blog.Admin.header')
+    @include('Blog.Client.header')
 <div>
 <h3>Insert Blog Data</h3>
 <hr>
-<form method="POST" action="{{route('admin.uploadVideo')}}" enctype="multipart/form-data" >
+<form method="POST" action="{{route('client.uploadVideo')}}" enctype="multipart/form-data" >
 @csrf
 <div >
 <label>Title</label>

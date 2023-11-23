@@ -52,12 +52,25 @@ Route::get('/signUp',[ClientBlogController::class,'signUp']);
 Route::post('auth/login',[ClientBlogController::class,'authLogin']);
 Route::post('auth/save',[ClientBlogController::class,'authSave']);
 
+
 //For AdminBlogController
 Route::middleware(['adminBlog','authBlog'])->group(function(){
-    Route::get('/admin',[AdminBlogController::class,'admin']);
-    Route::post('/uploadVideo',[AdminBlogController::class,'uploadVideo'])->name('video.uploadVideo');
+    Route::get('/blog/admin',[AdminBlogController::class,'admin']);
+    Route::post('/uploadVideo',[AdminBlogController::class,'uploadVideo'])->name('admin.uploadVideo');
     Route::get('/blogData',[AdminBlogController::class,'blogData']);
     Route::post('/importantData',[AdminBlogController::class,'importantData']);
+    Route::get('/allAdmin',[AdminBlogController::class,'allAdmin']);
+    Route::post('/auth/saveAdmin',[AdminBlogController::class,'saveAdmin']);
+    Route::get('/newAdmin',function(){
+     return view('Blog.Admin.newAdmin');
+    });
+    Route::get('deleteAdmin/{id}',[AdminBlogController::class,'deleteAdmin']);
+
 });
 
 Route::get('/logout',[ClientBlogController::class,'logout']);
+
+Route::post('/uploadVideo',[ClientBlogController::class,'uploadVideo'])->name('client.uploadVideo');
+
+Route::get('client/posts',[ClientBlogController::class,'posts']);
+Route::get('client/newPost',[ClientBlogController::class,'newPost']);
