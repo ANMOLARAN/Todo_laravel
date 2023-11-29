@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Admin;
 use App\Models\Auth;
 use App\Models\ImportantData;
+use App\Models\Post;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class AdminBlogController extends Controller
 {
@@ -14,13 +17,7 @@ class AdminBlogController extends Controller
         return view('Blog.Admin.blogU');
     }
 
-    public function uploadVideo(Request $request){
-        $this->validate($request, [
-            'title' => 'required|string|min:8',
-            'description'=>'required|string|min:50',
-            'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg',
-            'video' => 'required|file|mimetypes:video/mp4',
-        ]);
+    public function uploadVideo(PostRequest $request){
         
         $title=$request->title;
         $video=new Video();
@@ -90,11 +87,62 @@ class AdminBlogController extends Controller
             'password'=>$request->password
         ]);
        
-        return redirect('/allAdmin');
+        return redirect('/admin/allAdmin');
      }
 
      public function deleteAdmin(Request $request,$id){
         Admin::where('id',$id)->first()->delete();
-        return redirect('/allAdmin');
+        return redirect('/admin/allAdmin');
      }
+
+     public function allPost(Request $request){
+        $data=Post::all();
+
+        return view('Blog.Admin.allPost',compact('data'));
+     }
+
+     public function approve(Request $request,$id){
+        $post=Post::find($id);
+        $user=$post->auth;
+
+        //to move file from public user to public image and video
+
+        $originalFilePathI=public_path('user/'.$post->image);
+        $originalFilePathV=public_path('user/'.$post->video);
+        $destinationFolderI=public_path($post->image);
+        $destinationFolderV=public_path($post->video);
+        File::move($originalFilePathI,$destinationFolderI);
+        File::move($originalFilePathV,$destinationFolderV);
+
+        //To save in video table
+        $video=Video::create([
+            'title'=>$post->title,
+            'description'=>$post->description,
+            'image'=>$post->image,
+            'video'=>$post->video
+        ]);
+        $video->save();
+         
+        $this->delete($post->id);
+
+        return redirect('/admin/blogData');
+     }
+
+     public function deletePost($id){
+        $this->delete($id);
+        return redirect('/admin/allPost');
+     }
+
+     public function delete($id){
+           return Post::where('id',$id)->first()->delete();
+     }
+
+     public function deletBlog($id){
+        Video::where('id',$id)->first()->delete();
+        
+     }
+
+     public function errorPage(){
+        return view('Blog.Admin.errorPage');
+    }
 }

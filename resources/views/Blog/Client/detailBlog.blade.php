@@ -18,7 +18,7 @@ img{
 }
 </style>
 <body>
-@include('Blog.Client.header');
+@include('Blog.Client.header')
     <div class='container'>
     <h1>{{$data['title']}}</h1>
     <img src="{{asset($data->image)}}"/>

@@ -20,26 +20,37 @@
     img{
         width:150px;
     }
+
+    .more{
+        display:flex;
+        justify-content: center;
+    }
 </style>
 <body>
     @include('Blog.Client.header')
     <br>
     <div>
+     @if($temp)   
     @include('Blog.Client.importantData')
+    @endif
 </div>
 
 <div class="box">
 @foreach($data as $item)
-<a href="detailBlog/{{$item->id}}">
+<a href="/client/detailBlog/{{$item->id}}">
 <div class='box_1'>
 <img src="{{ asset($item->image) }}" alt="Image"/>
-<div class='box_2'>
+<div class='box_2'> 
 <h1>{{$item->title}}<h1>
 <h4>{{substr($item->description,0,50)}}</h4>
 </div>
 </div>
+<hr>
 </a>
 @endforeach
+</div>
+<div class='more'>
+    <h2><a href='/client/moreBlog'>More Blogs ...</a></h2>
 </div>
 </body>
 </html>

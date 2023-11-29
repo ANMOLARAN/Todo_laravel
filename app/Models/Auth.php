@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Auth extends Model
 {
     protected $fillable=['email','password'];
-    use HasFactory;
+
     public function post()
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class,'user_id');
     }
+
+    use HasFactory;
 }

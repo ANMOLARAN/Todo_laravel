@@ -59,7 +59,10 @@ return [
             'driver' => 'local',
             'root'   => public_path() . '/'
         ],
-
+        'user_files'=>[
+            'driver'=>'local',
+            'root'=>public_path().'/user'
+        ],
     ],
 
     /*

@@ -32,28 +32,28 @@
    
     <div class='container'>
         <div class="container1">
-<a href='/detailBlog/{{$temp[1]->id}}'>
+<a href='/client/detailBlog/{{$temp[1]->id}}'>
         <h1>{{$temp[0]->title}}</h1>
         <img src="{{asset($temp[0]->image)}}"/>
         <p>{{substr($temp[0]->description,0,60)}}</p>
 </a>
     </div>
     <div class="container2">
-<a href='/detailBlog/{{$temp[1]->id}}'>
+<a href='/client/detailBlog/{{$temp[1]->id}}'>
         <h1>{{$temp[1]->title}}</h1>
         <img src="{{asset($temp[1]->image)}}"/>
         <p>{{substr($temp[1]->description,0,60)}}</p>
 </a>
     </div>
     <div class="container3">
-<a href='/detailBlog/{{$temp[1]->id}}'>
+<a href='/client/detailBlog/{{$temp[1]->id}}'>
         <h1>{{$temp[2]->title}}</h1>
         <img src="{{asset($temp[2]->image)}}"/>
         <p>{{substr($temp[2]->description,0,60)}}</p>
 </a>
     </div>
     <div class="container4">
-<a href='/detailBlog/{{$temp[1]->id}}'>    
+<a href='/client/detailBlog/{{$temp[1]->id}}'>    
         <h1>{{$temp[3]->title}}</h1>
         <img src="{{asset($temp[3]->image)}}"/>
         <p>{{substr($temp[3]->description,0,60)}}</p>

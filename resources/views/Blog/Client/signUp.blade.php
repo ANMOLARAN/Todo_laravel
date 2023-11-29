@@ -26,10 +26,27 @@
         padding:40px;
     }
 
-    form div{
+    form box{
         display:flex;
         justify-content: space-between;
         align-items: center;
+    }
+
+    .box h4{
+        color:red;
+    }
+
+    .box1{
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        margin:0px;
+        padding:0px;
+    }
+    
+    .box2{
+        margin:0px;
+        padding:0px;
     }
 
     input{
@@ -54,21 +71,30 @@
 <div class='form'>
     <h1>Don't have an account</h1>
     <h2>Sign Up</h2>
-
-    @if(session('data'))
-    <h2>{{session('data')}}</h2>
-    @endif
     
-
         <form method='post' action="/auth/save">
             @csrf
-<div>
+<div class='box'>
+    <div class='box1'>
            <label>Email</label>
-           <input type='email' name='email'/>
+           <input type='email' name='email' value="{{old('email')}}"/>
 </div>
-<div>
+    <div class='box2'>
+           @error('email')
+           <h4>{{$message}}</h4>
+           @enderror
+    </div>
+</div>
+<div class='box'>
+    <div class='box1'>
           <label>Password</label>
            <input type='password' name='password'/>
+</div>
+    <div>
+           @error('password')
+           <h4>{{$message}}</h4>
+           @enderror
+    </div>
 </div>
 <div>
            <button type='submit'>Submit</button>

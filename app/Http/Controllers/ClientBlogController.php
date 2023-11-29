@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthRequest;
+use App\Http\Requests\PostRequest;
 use App\Models\Admin;
 use App\Models\Auth;
 use App\Models\ImportantData;
 use App\Models\Post;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ClientBlogController extends Controller
 {
@@ -34,7 +37,7 @@ class ClientBlogController extends Controller
 
     public function blog(){
 
-        $data=Video::all();
+        $data=Video::paginate(4);
         // $data=$this->success($data,200); 
         $temp=[];
         $value=ImportantData::all();
@@ -43,6 +46,11 @@ class ClientBlogController extends Controller
         }   
         
         return view('Blog.Client.blog',compact('data','temp'));
+    }
+    
+    public function moreBlog(){
+        $data=Video::paginate(4);
+        return view('Blog.Client.moreBlog',compact('data'));
     }
 
 
@@ -62,8 +70,8 @@ class ClientBlogController extends Controller
 
     public function authLogin(Request $request){
         $request->validate([
-            'email'=> 'required|email',
-            'password'=>'required'
+            'email'=> 'required|email|exists:auths,email',
+            'password'=>'required|'
         ]);
         $email=$request->email;
         $password=$request->password;
@@ -79,11 +87,7 @@ class ClientBlogController extends Controller
         return redirect('/blog');
     }
 
-    public function authSave(Request $request){
-        $request->validate([
-            'email'=> 'required|email|unique:auths,email',
-            'password'=>'required'
-        ]);
+    public function authSave(AuthRequest $request){
         $auth=Auth::create([
            'email'=>$request->email,
            'password'=>$request->password
@@ -97,44 +101,82 @@ class ClientBlogController extends Controller
         return redirect('/blog');
     }
 
-    public function uploadVideo(Request $request){
-        // $this->validate($request, [
-        //     'title' => 'required|string|min:8',
-        //     'description'=>'required|string|min:50',
-        //     'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg',
-        //     'video' => 'required|file|mimetypes:video/mp4',
-        // ]);
-
-        dd($request);
+    public function uploadVideo(PostRequest $request){
         
+        $email=$request->session()->get('email');
+        $user=Auth::where('email',$email)->first();
         $title=$request->title;
         $post=new Post();
         $post->title=$title;
         $post->description=$request->description;
-        $header=substr($title,0,3).substr($title,5,8);
+         $header=substr($title,0,3).substr($title,5,8);
         if($request->hasFile('image')){
             $file=$request->file('image');
-            $pathI=$file->storeAs('images',"custom_{$header}.jpg",['disk'=>'my_files']);
+            $pathI=$file->storeAs('images',"custom_{$header}.jpg",['disk'=>'user_files']);
             $post->image=$pathI;
         }
         if ($request->hasFile('video')) {
             $file = $request->file('video');
-            $pathV = $file->storeAs('videos', "custom_{$header}.mp4", ['disk' => 'my_files']);
+            $pathV = $file->storeAs('videos', "custom_{$header}.mp4", ['disk' => 'user_files']);
             $post->video=$pathV;
         }
         
-        $post->save();
+        $user->post()->save($post);
 
-        return redirect('/admin');
+        return redirect('/client/posts');
     }
 
-    public function posts(){
-        return view('Blog.Client.post');
+    public function posts(Request $request){
+        $email=$request->session()->get('email');
+        $user=Auth::where('email',$email)->first();
+        $data=$user->post;
+        return view('Blog.Client.post',compact('data'));
     }
 
     public function newPost(){
         return view('Blog.Client.blogU');
     }
+  
+    public function detailPost($id){
+        $data=Post::find($id);
+        return view('Blog.Client.detailPost',compact('data'));
+    }
 
+    public function editPost($id){
+       $data=Post::find($id);
+       return view('Blog.Client.editPost',compact('data'));
+        
+    }
 
+    public function updatePost(Request $request,$id){
+      $post=Post::find($id);
+      $imagePath=$post->image;
+      $videoPath=$post->video;
+      
+      $post->title=$request->title;
+      $post->description=$request->description;
+
+      $header=substr($request->title,0,3).substr($request->title,5,8);
+      if($request->hasFile('image')){
+        $file=$request->file('image');
+        $pathI=$file->storeAs('images',"custom_{$header}.jpg",['disk'=>'user_files']);
+        $originalFilePathI=public_path('user/'.$imagePath);
+        File::delete($originalFilePathI);
+        $post->image=$pathI;
+      }
+      if($request->hasFile('video')){
+        $file=$request->file('video');
+        $pathV=$file->storeAs('videos',"custom_{$header}.mp4",['disk'=>'user_files']);
+        $originalFilePathV=public_path('user/'.$videoPath);
+        File::delete($originalFilePathV);
+        $post->video=$pathV;
+      }
+      $post->save();
+       
+      return redirect('/client/posts');
+    }
+
+    public function errorPage(){
+        return view('Blog.Client.errorPage');
+    }
 }

@@ -18,6 +18,6 @@ class AuthBlog
         if(session()->has('email'))
         return $next($request);
         else
-        return 'Error';
+        return redirect('/client/errorPage');
     }
 }

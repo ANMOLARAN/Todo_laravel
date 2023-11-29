@@ -18,6 +18,6 @@ class AdminBlog
         if(session()->has('admin'))
         return $next($request);
         else
-        return 'Error page';
+        return redirect('/admin/errorPage');
     }
 }
