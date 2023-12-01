@@ -54,7 +54,7 @@
 @include('Blog.Client.header')
 <div class='form'>
     <h2>Create New Admin</h2>
-    <form method='post' action='/auth/saveAdmin'>
+    <form method='post' action="{{route('admin.storeAdmin')}}">
             @csrf
 <div>
            <label>Email</label>

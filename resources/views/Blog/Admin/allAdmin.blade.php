@@ -25,6 +25,7 @@
 <body>
     @include('Blog.Admin.header')
     <h1>All Admins</h1>
+    <h1><a href="{{route('admin.newAdmin')}}">Insert New Admin</a></h1>
     <table>
     <tr>
         <th>Id</th>
@@ -35,11 +36,16 @@
 <tr>
 <td>{{$item['id']}}</td>
 <td>{{$item['email']}}</td>
-<td><a href='deleteAdmin/{{$item['id']}}'>Delete</a></td>
+<td>
+<form method="POST" action="{{route('admin.deleteAdmin',['id'=>$item['id']])}}">
+    @csrf
+    @method('DELETE')
+<button>Delete</button>
+</form>    
+</td>
 </tr>
 @endforeach
 </table>
 
-<h1><a href='/newAdmin'>Insert New Admin</a></h1>
 </body>
 </html>

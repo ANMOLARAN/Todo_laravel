@@ -16,11 +16,10 @@
 </style>
 <body>
 <div class='header'>
-<h1><a href='/blog'>Blog Website</a></h1>
-    <h2><a href='/admin/blogData'>Blog Data</a></h2>
-    <h2><a href='/admin/allPost'>User Posts</a></h2>
-    <h2><a href='/admin/allAdmin'>All Administrators</a></h2>
-    <h2><a href='/admin'>Admin</a></h2>
+<h1><a href="{{route('blog')}}">Blog Website</a></h1>
+    <h2><a href="{{route('admin.allUser')}}">All User</a></h2>
+    <h2><a href="{{route('admin.allAdmin')}}">All Admins</a></h2>
+    <h2><a href="{{route('admin')}}">Admin</a></h2>
 </div>
 </body>
 </html>

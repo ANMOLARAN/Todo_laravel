@@ -21,11 +21,11 @@ img{
 @include('Blog.Client.header')
     <div class='container'>
     <h1>{{$data['title']}}</h1>
-    <img src="{{asset($data->image)}}"/>
+    <img src="{{asset('user/'.$data->image)}}"/>
     <p>{{$data['description']}}</p>
     
     <video width="640" height="360" controls>
-    <source src="{{ asset($data->video) }}" type="video/mp4">
+    <source src="{{asset('user/'.$data->video) }}" type="video/mp4">
     Your browser does not support the video tag.
 </video>
 </div>

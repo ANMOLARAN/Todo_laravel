@@ -31,11 +31,11 @@
 </style>
 <body>
     @include('Blog.Client.header')
-    <h1><a href='/client/newPost'>Insert New post</a></h1>
+    <h1><a href="{{route('client.newBlog')}}"><button>Insert New post</a></h1>
     <h1>Your Posts</h1>
     <div>
 @foreach($data as $item)
-<a href="detailPost/{{$item->id}}">
+<a href="{{route('client.showBlog',['id'=>$item->id])}}">
 <div class='box'>
 <div class='box_1'>
     <img src="{{ asset('user/'.$item->image) }}" alt="Image"/>
@@ -45,8 +45,14 @@
 </div>
 </div>
 <div class='box_3'>
-    <h3><a href='/client/editPost/{{$item->id}}'>EDIT</a></h3>
-    <h3>DELETE</h3>
+    <h3>{{$item->status}}</h3>
+    <h3><a href="{{route('client.editBlog',['id'=>$item->id])}}"><button>EDIT</button></a></h3>
+    <h3><form action="{{route('client.delete',['id'=>$item->id])}}" method="POST">
+      @csrf
+       @method('DELETE')
+       <button>DELETE</button>
+    </form>
+      </h3>
 </div>
 </div>
 </a>

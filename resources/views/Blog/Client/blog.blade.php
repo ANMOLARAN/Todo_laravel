@@ -37,9 +37,9 @@
 
 <div class="box">
 @foreach($data as $item)
-<a href="/client/detailBlog/{{$item->id}}">
+<a href="{{route('client.showBlog',['id'=>$item->id])}}">
 <div class='box_1'>
-<img src="{{ asset($item->image) }}" alt="Image"/>
+<img src="{{asset('user/'.$item->image)}}" alt="Image"/>
 <div class='box_2'> 
 <h1>{{$item->title}}<h1>
 <h4>{{substr($item->description,0,50)}}</h4>
@@ -50,7 +50,7 @@
 @endforeach
 </div>
 <div class='more'>
-    <h2><a href='/client/moreBlog'>More Blogs ...</a></h2>
+    <h2><a href="{{route('client.moreBlog')}}">More Blogs ...</a></h2>
 </div>
 </body>
 </html>

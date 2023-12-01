@@ -13,10 +13,10 @@
 </style>
 <body>
 <div class='header'>
-    <h1><a href='/blog'>Blog Website</a></h1>
-    <h1><a href='/client/posts'>Posts</a></h1>
+    <h1><a href="{{route('blog')}}">Blog Website</a></h1>
+    <h1><a href="{{route('client.post')}}">Posts</a></h1>
     @if(session('admin'))
-    <h2><a href='/blog/admin'>Admin</a></h2>
+    <h2><a href="{{route('admin')}}">Admin</a></h2>
     @endif
     @if(session('email'))
     <h2><a href='/logout'>LogOut</a></h2>

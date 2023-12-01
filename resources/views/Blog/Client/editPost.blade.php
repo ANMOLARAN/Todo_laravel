@@ -40,8 +40,9 @@ width:400px;
 @include('Blog.Client.header')
     <div class='container'>
 
-    <form action='/client/updatePost/{{$data->id}}' method='post' enctype="multipart/form-data">
+    <form action="{{route('client.update',['id'=>$data['id']])}}" method='post' enctype="multipart/form-data">
         @csrf
+        @method('PUT')
 <div>
     <label>Edit Title</label>
     <textarea type='text' name='title' class='title'>{{$data['title']}}</textarea>
