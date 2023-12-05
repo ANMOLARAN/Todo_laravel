@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Interfaces\AdminRepositoryInterface;
 use App\Models\Admin;
+use App\Trait\APIResponse;
 use Illuminate\Http\Request;
+
 
 class AdminResource extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    use APIResponse;
     private AdminRepositoryInterface $adminRepository;
 
     public function __construct(AdminRepositoryInterface $adminRepository){
@@ -21,7 +24,8 @@ class AdminResource extends Controller
     public function index()
     {
         $admin=new Admin();
-        $data=$this->adminRepository->allBlog($admin);
+        $data=Admin::all();
+        // $data=$this->success($data,200);
         return view('Blog.Admin.allAdmin',compact('data'));
     }
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,7 +43,7 @@
 <img src="{{asset('user/'.$item->image)}}" alt="Image"/>
 <div class='box_2'> 
 <h1>{{$item->title}}<h1>
-<h4>{{substr($item->description,0,50)}}</h4>
+<h4>{{substr($item->description,0,150)}}</h4>
 </div>
 </div>
 <hr>

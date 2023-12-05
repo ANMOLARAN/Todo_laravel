@@ -92,6 +92,10 @@ Route::middleware(['authBlog'])->group(function(){
     Route::get('/client/edit/{id}',[ClientBlog::class,'edit'])->name('client.editBlog');
     Route::put('/client/updatePost/{id}',[ClientBlog::class,'update'])->name('client.update');
 });
+Route::get('/client/forgetPassword',[ClientBlogController::class,'forgetPassword'])->name('client.forgetPassword');
+Route::post('/client/enterEmail',[ClientBlogController::class,'enterEmail'])->name('client.enterEmail');
+Route::get('/client/resetPassword/{email}/{token}',[ClientBlogController::class,'resetPassword'])->name('client.resetPassword');
+Route::post('/client/updatePassword/{email}',[ClientBlogController::class,'updatePassword'])->name('client.updatePassword');
 
 
 

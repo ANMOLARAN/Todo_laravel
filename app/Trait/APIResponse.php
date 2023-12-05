@@ -9,6 +9,11 @@ Trait APIResponse{
            'message'=>'Success'
         ]);
        return response($content,$code)->header('Content-Type', 'application/json');
+    // return response()->json([
+    //     'data'=>$data,
+    //     'status'=>$code,
+    //     'message'=>'success'
+    // ]);
     }
 
     public function error(){

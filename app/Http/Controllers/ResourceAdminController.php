@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\AdminRepositoryInterface;
+use App\Interfaces\BlogRepositoryInterface;
 use App\Models\Auth;
 use App\Models\Blog;
 use Illuminate\Http\Request;
@@ -13,16 +14,16 @@ class ResourceAdminController extends Controller
     /**
      * Display a listing of the resource.
      */
-    private AdminRepositoryInterface $adminRepository;
+    private BlogRepositoryInterface $blogRepository;
 
-    public function __construct(AdminRepositoryInterface $adminRepository){
-        $this->adminRepository=$adminRepository;
+    public function __construct(BlogRepositoryInterface $blogRepository){
+        $this->blogRepository=$blogRepository;
      }
 
     public function index()
     {
         $blog=new Blog();
-        $data=$this->adminRepository->allBlog($blog);
+        $data=$this->blogRepository->allBlog($blog,10);
         return view('Blog.Admin.blogData',compact('data'));
     }
 
@@ -41,7 +42,7 @@ class ResourceAdminController extends Controller
     { 
         $email=$request->session()->get('email');
         $user=Auth::where('email',$email)->first(); 
-        $this->adminRepository->storeBlog($request,$user);
+        $this->blogRepository->storeBlog($request,$user,'admin','approved');
         return redirect()->route('admin');    
     }
 
@@ -51,7 +52,7 @@ class ResourceAdminController extends Controller
     public function show(string $id)
     {
         //
-        $data=$this->adminRepository->blog($id);
+        $data=$this->blogRepository->blog($id);
         return view('Blog.Admin.detailBlog',compact('data'));
     }
 
@@ -60,7 +61,7 @@ class ResourceAdminController extends Controller
      */
     public function edit(string $id)
     {
-        $data=Blog::find($id);
+        $data=$this->blogRepository->blog($id);
         return view('Blog.Admin.editPost',compact('data'));
     }
 
@@ -69,30 +70,7 @@ class ResourceAdminController extends Controller
      */
     public function update(Request $request, string $id)
     {
-    $post=$this->adminRepository->blog($id);
-      $imagePath=$post->image;
-      $videoPath=$post->video;
-      
-      $post->title=$request->title;
-      $post->description=$request->description;
-
-      $header=substr($request->title,0,3).substr($request->description,0,4);
-      if($request->hasFile('image')){
-        $file=$request->file('image');
-        $pathI=$file->storeAs('images',"custom_{$header}.jpg",['disk'=>'user_files']);
-        $originalFilePathI=public_path('user/'.$imagePath);
-        File::delete($originalFilePathI);
-        $post->image=$pathI;
-      }
-      if($request->hasFile('video')){
-        $file=$request->file('video');
-        $pathV=$file->storeAs('videos',"custom_{$header}.mp4",['disk'=>'user_files']);
-        $originalFilePathV=public_path('user/'.$videoPath);
-        File::delete($originalFilePathV);
-        $post->video=$pathV;
-      }
-      $post->save();
-       
+    $this->blogRepository->updateBlog($request,$id);       
       return redirect()->route('admin');
     }
 
@@ -104,9 +82,9 @@ class ResourceAdminController extends Controller
        $blog=Blog::find($id);
        $imagePath=$blog->image;
        $videoPath=$blog->video;
-       $this->adminRepository->deleteFile($imagePath);
-       $this->adminRepository->deleteFile($videoPath);
-       $this->adminRepository->deleteBlog($id);
+       $this->blogRepository->deleteFile($imagePath);
+       $this->blogRepository->deleteFile($videoPath);
+       $this->blogRepository->deleteBlog($id);
         return redirect()->route('admin');
     }
 }

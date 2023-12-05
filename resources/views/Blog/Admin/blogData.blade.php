@@ -18,6 +18,22 @@
     td{
         background-color:orange;
     }
+    .button{
+        display:flex;
+        flex-direction: column;
+    }
+
+    ul{
+        display:flex;
+        gap:3px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    li{
+        list-style-type: none;
+        font-size: 15px;
+    }
     </style>
 <body>
     @include('Blog.Admin.header')
@@ -59,6 +75,9 @@
 </tr>
 @endforeach
 </table>
+<div class='button'>
+    {{$data->links()}}
+</div>
 @include('Blog.Admin.importantData')
 </body>
 </html>

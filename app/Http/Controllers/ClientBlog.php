@@ -6,6 +6,7 @@ use App\Interfaces\BlogRepositoryInterface;
 use App\Models\Auth;
 use App\Models\Blog;
 use App\Models\ImportantData;
+use App\Trait\APIResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -14,6 +15,7 @@ class ClientBlog extends Controller
     /**
      * Display a listing of the resource.
      */
+    use APIResponse;
     private BlogRepositoryInterface $blogRepository;
 
     public function __construct(BlogRepositoryInterface $blogRepository)
@@ -22,8 +24,9 @@ class ClientBlog extends Controller
     }
 
     public function index()
-    {
-        $data=$this->blogRepository->allBlog();
+    {   
+        $model=new Blog();
+        $data=$this->blogRepository->allClientBlog(3);
         $temp=[];
         $value=ImportantData::all();
           foreach($value as $item){
@@ -50,28 +53,7 @@ class ClientBlog extends Controller
         
         $email=$request->session()->get('email');
         $user=Auth::where('email',$email)->first(); 
-        $blog=new Blog();
-        $title=$request->title;
-        $blog->title=$title;
-        $description=$request->description;
-        $blog->description=$description;
-        $header=substr($title,0,3).substr($description,0,4);
-        if($request->hasFile('image')){
-            $file=$request->file('image');
-            $pathI=$file->storeAs('images',"custom_{$header}.jpg",['disk'=>'user_files']);
-            $blog->image=$pathI;
-        }
-        if ($request->hasFile('video')) {
-            $file = $request->file('video');
-            $pathV = $file->storeAs('videos', "custom_{$header}.mp4", ['disk' => 'user_files']);
-            $blog->video=$pathV;
-        }
-
-        $blog->user='user';
-
-        $blog->status='pending';
-        
-        $user->blog()->save($blog);
+        $this->blogRepository->storeBlog($request,$user,'user','pending');
 
         return redirect()->route('blog');    
     }
@@ -101,31 +83,9 @@ class ClientBlog extends Controller
      */
     public function update(Request $request, string $id)
     {
-      $post=$this->blogRepository->blog($id);
-      $imagePath=$post->image;
-      $videoPath=$post->video;
-      
-      $post->title=$request->title;
-      $post->description=$request->description;
-
-      $header=substr($request->title,0,3).substr($request->description,0,4);
-      if($request->hasFile('image')){
-        $file=$request->file('image');
-        $pathI=$file->storeAs('images',"custom_{$header}.jpg",['disk'=>'user_files']);
-        $originalFilePathI=public_path('user/'.$imagePath);
-        File::delete($originalFilePathI);
-        $post->image=$pathI;
-      }
-      if($request->hasFile('video')){
-        $file=$request->file('video');
-        $pathV=$file->storeAs('videos',"custom_{$header}.mp4",['disk'=>'user_files']);
-        $originalFilePathV=public_path('user/'.$videoPath);
-        File::delete($originalFilePathV);
-        $post->video=$pathV;
-      }
-      $post->save();
+     $this->blogRepository->updateBlog($request,$id);
        
-      return redirect()->route('client.post');
+    return redirect()->route('client.post');
     }
 
     /**

@@ -100,6 +100,7 @@
            <button type='submit'>Submit</button>
 </div>
     </form>
+    <h1><a href="{{route('client.forgetPassword')}}">Forget Password</a></h1>
     <h2>Don't have an account?</h2>
     <h1><a href='/signUp'>SignUp</a></h1>
     </div>

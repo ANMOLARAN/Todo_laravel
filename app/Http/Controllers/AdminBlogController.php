@@ -3,14 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Jobs\JobEmail;
+use App\Mail\ApproveEmail;
 use App\Models\Admin;
 use App\Models\Auth;
 use App\Models\Blog;
 use App\Models\ImportantData;
 use App\Models\Post;
 use App\Models\Video;
+use App\Notifications\ApproveNotification;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification as FacadesNotification;
 
 class AdminBlogController extends Controller
 {
@@ -45,12 +51,18 @@ class AdminBlogController extends Controller
      }
 
      public function approve($id){
-        $post=Blog::find($id);
+        $post=Blog::find($id); 
+        $user=$post->auth;
+        $email=$user->email;
         $value=$post->status;
         if($value=='approved'){
-            $post->status='pending';
+          $post->status='pending';
+        
         }
         else{
+        $mail=new ApproveEmail();
+        Mail::to($email)->send($mail);
+            // JobEmail::dispatch($email);
             $post->status='approved';
         }
        $post->save();
